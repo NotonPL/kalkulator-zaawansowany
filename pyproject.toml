@@ -1,0 +1,76 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "python-calculator"
+version = "1.0.0"
+description = "A themeable scientific calculator written in Python + Qt, with a terminal mode that runs on Android/Termux."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "python-calculator contributors" }]
+keywords = ["calculator", "qt", "pyside6", "scientific", "termux", "gui"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: X11 Applications :: Qt",
+    "Environment :: Console",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Office/Business :: Financial :: Spreadsheet",
+    "Topic :: Scientific/Engineering :: Mathematics",
+]
+
+# The core engine has *no* third-party dependencies -- the GUI extra is optional
+# so `pip install python-calculator` also works on a phone.
+dependencies = []
+
+[project.optional-dependencies]
+gui = ["PySide6>=6.4"]
+dev = ["pytest>=7", "pytest-qt>=4.2", "ruff>=0.4"]
+
+[project.scripts]
+pycalc = "calc:run"
+
+[project.urls]
+Homepage = "https://github.com/NotonPL/kalkulator-zaawansowany"
+Repository = "https://github.com/NotonPL/kalkulator-zaawansowany"
+Issues = "https://github.com/NotonPL/kalkulator-zaawansowany/issues"
+
+[tool.setuptools]
+packages = ["calc", "calc.core", "calc.gui"]
+
+[tool.setuptools.package-data]
+calc = ["../i18n/*.json"]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+qt_api = "pyside6"
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.coverage.run]
+source = ["calc"]
+omit = ["*/tests/*"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "C4", "SIM"]
+ignore = [
+    "E501",   # line length is handled by the formatter
+    "B008",   # Qt calls in default arguments are fine here
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["B011"]
+"calc/core/functions.py" = ["C401"]

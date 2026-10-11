@@ -1,0 +1,18 @@
+# Runtime dependencies.
+#
+# The calculator core and the CLI have *no* third-party runtime dependencies --
+# they use only the Python standard library.  The graphical interface is an
+# optional extra.  To install everything:
+#
+#     pip install -e ".[gui,dev]"
+#
+# This file mirrors the extras for tooling that only understands requirements
+# files.
+
+# GUI (optional)
+PySide6>=6.4
+
+# Development (optional)
+pytest>=7
+pytest-qt>=4.2
+ruff>=0.4
